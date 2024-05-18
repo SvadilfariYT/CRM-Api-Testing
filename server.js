@@ -1,14 +1,12 @@
 const express = require('express');
-const cors = require('cors');
 const app = express();
-const port = 3000;
 
-app.use(cors()); // This will enable CORS for all routes
-
-app.get('/ping', (req, res) => {
-    res.status(200).send('pong');
+// Define a route for the root URL
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
 });
