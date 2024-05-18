@@ -31,8 +31,17 @@ app.get('/', (req, res) => {
 // Define a route that accepts JSON data
 app.post('/api/data', (req, res) => {
     const { name, age } = req.body;  // Access the name and age sent by the client
-    res.json({ status: 'success', message: 'Webhook processed' });
+    res.json({ message: 'Data received', name: name, age: age });
 });
+
+app.post('/webhook', (req, res) => {
+    const { name, age } = req.body;  // Access the name and age sent by the client
+    console.log('Webhook received:', data);  // Log or process the data as needed
+
+    // Respond to the source system that the webhook was received and processed
+    res.status(200).send('Webhook received');
+});
+
 
 // Start the server
 app.listen(3000, () => {
