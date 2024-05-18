@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 // Define a route that accepts JSON data
 app.post('/api/data', (req, res) => {
     const { name, age } = req.body;  // Access the name and age sent by the client
-    res.json({ message: 'Data received', name: name, age: age });
+    res.json({ status: 'success', message: 'Webhook processed' });
 });
 
 // Start the server
