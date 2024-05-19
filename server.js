@@ -19,6 +19,11 @@ app.use((req, res, next) => {
         const data = `Name: ${name}, Age: ${age}\n`;
         accessLogStream.write(data);
     }
+    if (req.method === 'Post' && req.url === '/webhook') {
+        const { name, age } = req.body; // Destructure name and age from the request body
+        const data = `Name: ${name}, Age: ${age}\n`;
+        accessLogStream.write(data);
+    }
     next();
 });
 
@@ -35,7 +40,7 @@ app.post('/api/data', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     const { name, age } = req.body;  // Access the name and age sent by the client
-    console.log('Webhook received:', data);  // Log or process the data as needed
+    accessLogStreamconsole.log(`Webhook received: ${name} (${age})`);
 
     // Respond to the source system that the webhook was received and processed
     res.json({ status: 'success', message: 'Webhook processed' });
