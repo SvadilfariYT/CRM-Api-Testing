@@ -10,15 +10,14 @@ app.use(express.json());
 
 // Middleware to log each request to a file
 app.use((req, res, next) => {
+    const logEntry = `[${new Date().toISOString()}]: Received ${req.method} request for '${req.url}'\n`;
+    accessLogStream.write(logEntry);
+
     // Only log the details if the request method is POST and the route is /api/data
     if (req.method === 'POST' && req.url === '/api/data') {
         const { name, age } = req.body; // Destructure name and age from the request body
-        const logEntry = `Received POST request for '/api/data' at ${new Date().toISOString()}`
-                        + `\nName: ${name}, Age: ${age}\n`;
-        accessLogStream.write(logEntry);
-    } else {
-        const logEntry = `Received ${req.method} request for '${req.url}' at ${new Date().toISOString()}\n`;
-        accessLogStream.write(logEntry);
+        const data = `Name: ${name}, Age: ${age}\n`;
+        accessLogStream.write(data);
     }
     next();
 });
@@ -39,9 +38,9 @@ app.post('/webhook', (req, res) => {
     console.log('Webhook received:', data);  // Log or process the data as needed
 
     // Respond to the source system that the webhook was received and processed
+    res.json({ status: 'success', message: 'Webhook processed' });
     res.status(200).send('Webhook received');
 });
-
 
 // Start the server
 app.listen(3000, () => {
