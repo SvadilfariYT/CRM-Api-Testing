@@ -40,11 +40,10 @@ app.post('/api/data', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     const { name, age } = req.body;  // Access the name and age sent by the client
-    accessLogStream.write(`Webhook received: ${name} (${age})`);
+    accessLogStream.write(`Webhook received: ${name} (${age})\n`);
 
     // Respond to the source system that the webhook was received and processed
-    res.json({ status: 'success', message: 'Webhook processed' });
-    res.status(200).send('Webhook received');
+    res.status(200).json({ status: 'success', message: 'Webhook processed' });
 });
 
 // Start the server
